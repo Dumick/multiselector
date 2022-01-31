@@ -1,11 +1,18 @@
-<template>
-  
-</template>
+<template></template>
 
 <script>
+import {mapMutations, mapActions} from 'vuex'
+
 export default {
-  name: 'App'
-}
+  name: "App",
+  methods: {
+    ...mapActions(['getData']),
+    ...mapMutations(['showData'])
+  },
+  created() {
+    this.getData();
+  }
+};
 </script>
 
 <style>
