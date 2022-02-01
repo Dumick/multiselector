@@ -28,6 +28,7 @@ export default {
   box-sizing: border-box;
 }
 #app {
+  font-family: 'Roboto', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,6 +37,7 @@ export default {
   width: 80%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  margin-top: 40px;
+  justify-content: space-around;
 }
 </style>

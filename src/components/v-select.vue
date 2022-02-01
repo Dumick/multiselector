@@ -32,7 +32,7 @@ export default {
     },
     clickOnOption(option) {
       document.getElementById(option.title).classList.toggle("active");
-      this.toggleOption(option.title);
+      this.toggleOption(option);
     },
   },
   computed: mapGetters(["getOptions", "getIsShowSelect", "getActiveOptions"]),
@@ -44,6 +44,7 @@ export default {
   position: relative;
   width: 200px;
   height: 100px;
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default createStore({
     actions: {
-        async getData(ctx,) {
+        async getData(ctx, ) {
             let res = await axios('https://raw.githubusercontent.com/WilliamRu/TestAPI/master/db.json')
 
             ctx.commit('showData', res.data.testArr)
@@ -25,10 +25,10 @@ export default createStore({
             })
 
             const dictionary = {
-                'string': 'Строка',
-                'number': 'Число',
-                'object': 'Объект',
-                'boolean': 'Булевое',
+                'string': 'Строки',
+                'number': 'Числа',
+                'object': 'Объекты',
+                'boolean': 'Булевые',
             }
 
             arrayOptions.forEach((option, index) => {
@@ -49,17 +49,35 @@ export default createStore({
                 })
             })
 
+            state.options.map(option => {
+                if (typeof option.body[0] !== 'object')
+                    option.body = option.body.join(', ');
+                else {
+                    option.body.map(option => {
+                        let newOption = '';
+                        for (const key in option)
+                            newOption += `${key} => ${option[key]}`
+
+                        option = newOption;
+                    })
+
+                }
+
+            })
+
         },
         toggleShowSelect(state) {
             state.isShowOptions = !state.isShowOptions;
         },
-        toggleOption(state, title) {
-            if (!state.activeOptions.includes(title))
-                state.activeOptions.push(title)
-            else {
-                let index = state.activeOptions.indexOf(title);
-                state.activeOptions.splice(index, 1)
+        toggleOption(state, option) {
+            if (!state.activeOptions.includes(option)) {
+                state.activeOptions.push(option)
+            } else {
+                let index = state.activeOptions.indexOf(option);
+                state.activeOptions.splice(index, 1);
             }
+
+            // console.log(state.activeOptions);
         }
     },
     state: {
