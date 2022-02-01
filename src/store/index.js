@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default createStore({
     actions: {
-        async getData(ctx, ) {
+        async getData(ctx,) {
             let res = await axios('https://raw.githubusercontent.com/WilliamRu/TestAPI/master/db.json')
 
             ctx.commit('showData', res.data.testArr)
@@ -53,6 +53,14 @@ export default createStore({
         },
         toggleShowSelect(state) {
             state.isShowOptions = !state.isShowOptions;
+        },
+        toggleOption(state, title) {
+            if (!state.activeOptions.includes(title))
+                state.activeOptions.push(title)
+            else {
+                let index = state.activeOptions.indexOf(title);
+                state.activeOptions.splice(index, 1)
+            }
         }
     },
     state: {
@@ -60,6 +68,7 @@ export default createStore({
         hash: '',
         options: [],
         fullText: '',
+        activeOptions: [],
         isShowOptions: false,
     },
     getters: {
@@ -68,6 +77,9 @@ export default createStore({
         },
         getIsShowSelect(state) {
             return state.isShowOptions;
+        },
+        getActiveOptions(state) {
+            return state.activeOptions;
         }
     }
 })

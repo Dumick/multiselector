@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from "vuex";
+import {mapActions } from "vuex";
 import vSelect from "./components/v-select.vue";
 
 export default {
