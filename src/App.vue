@@ -1,14 +1,15 @@
-<template></template>
+<template>
+  <v-select />
+</template>
 
 <script>
-import {mapMutations, mapActions} from 'vuex'
+import { mapMutations, mapActions } from "vuex";
+import vSelect from "./components/v-select.vue";
 
 export default {
   name: "App",
-  methods: {
-    ...mapActions(['getData']),
-    ...mapMutations(['showData'])
-  },
+  components: { vSelect },
+  methods: mapActions(["getData"]),
   created() {
     this.getData();
   }
@@ -16,12 +17,14 @@ export default {
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

@@ -3,21 +3,71 @@ import axios from "axios";
 
 export default createStore({
     actions: {
-        async getData(ctx) {
-            let responseURL = 'https://raw.githubusercontent.com/WilliamRu/TestAPI/master/db.json'
+        async getData(ctx, ) {
+            let res = await axios('https://raw.githubusercontent.com/WilliamRu/TestAPI/master/db.json')
 
-            let res = await axios.get(responseURL);
-            ctx.commit('showData', res.data)
+            ctx.commit('showData', res.data.testArr)
         }
+
     },
     mutations: {
-        showData(data) {
-            console.log(data);
+        showData(state, data) {
+            function flatDeep(arr, d = 1) {
+                return d > 0 ? arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), []) :
+                    arr.slice();
+            }
+            data = flatDeep(data, Infinity);
+
+            let arrayOptions = [];
+            data.forEach(item => {
+                if (!arrayOptions.includes(typeof item)) {
+                    arrayOptions.push(typeof item);
+                }
+            })
+
+            const dictionary = {
+                'string': 'Строка',
+                'number': 'Число',
+                'object': 'Объект',
+                'boolean': 'Булевое',
+            }
+
+            arrayOptions.forEach((option, index) => {
+                state.options.push({});
+                state.options[index].title = option;
+                state.options[index].value = dictionary[option];
+
+                state.options[index].body = [];
+            })
+
+            data.forEach(item => {
+                let type = typeof item;
+
+                state.options.forEach((option) => {
+                    if (option.title === type) {
+                        option.body.push(item);
+                    }
+                })
+            })
+
+        },
+        toggleShowSelect(state) {
+            state.isShowOptions = !state.isShowOptions;
         }
     },
     state: {
         data: [],
-        options: []
+        hash: '',
+        options: [],
+        fullText: '',
+        isShowOptions: false,
     },
-    getters: {}
+    getters: {
+        getOptions(state) {
+            return state.options;
+        },
+        getIsShowSelect(state) {
+            return state.isShowOptions;
+        }
+    }
 })
