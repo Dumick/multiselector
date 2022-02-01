@@ -8,7 +8,6 @@ export default createStore({
 
             ctx.commit('showData', res.data.testArr)
         }
-
     },
     mutations: {
         showData(state, data) {

@@ -1,18 +1,23 @@
 <template>
-  <v-select />
+  <div class="wrap">
+    <v-select />
+    <v-content />
+  </div>
 </template>
 
 <script>
-import {mapActions } from "vuex";
+import { mapActions } from "vuex";
+
 import vSelect from "./components/v-select.vue";
+import vContent from "./components/v-content.vue";
 
 export default {
   name: "App",
-  components: { vSelect },
+  components: { vSelect, vContent },
   methods: mapActions(["getData"]),
   created() {
     this.getData();
-  }
+  },
 };
 </script>
 
@@ -23,6 +28,12 @@ export default {
   box-sizing: border-box;
 }
 #app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrap {
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
