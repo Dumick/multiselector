@@ -27,7 +27,7 @@ export default {
 
       if (this.getIsShowSelect === true && this.getActiveOptions.length !== 0)
         this.getActiveOptions.forEach((option) => {
-          document.getElementById(option).classList.toggle("active");
+          document.getElementById(option.title).classList.toggle("active");
         });
     },
     clickOnOption(option) {
@@ -84,7 +84,7 @@ export default {
   background-color: #6f6fe9;
 }
 .options p.show.active:hover {
-   background-color: #3c3ca1;
+  background-color: #3c3ca1;
 }
 .options p.show:hover {
   background-color: #e0e0e0;

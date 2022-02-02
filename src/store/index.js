@@ -1,9 +1,10 @@
 import { createStore } from "vuex";
+import sha256 from "sha256";
 import axios from "axios";
 
 export default createStore({
     actions: {
-        async getData(ctx, ) {
+        async getData(ctx,) {
             let res = await axios('https://raw.githubusercontent.com/WilliamRu/TestAPI/master/db.json')
 
             ctx.commit('showData', res.data.testArr)
@@ -53,14 +54,18 @@ export default createStore({
                 if (typeof option.body[0] !== 'object')
                     option.body = option.body.join(', ');
                 else {
-                    option.body.map(option => {
-                        let newOption = '';
-                        for (const key in option)
-                            newOption += `${key} => ${option[key]}`
+                    let textBody = '';
 
-                        option = newOption;
+                    option.body.forEach(item => {
+                        if (item !== null)
+                            for (const key in item)
+                                textBody += `${key} => ${item[key]}, `
+                        else
+                            textBody += 'null '
                     })
 
+                    option.body = textBody;
+                    textBody = '';
                 }
 
             })
@@ -70,23 +75,40 @@ export default createStore({
             state.isShowOptions = !state.isShowOptions;
         },
         toggleOption(state, option) {
+            function calcHash() {
+                state.hash = '0';
+                state.fullText = '';
+
+                state.activeOptions.forEach(active => {
+                    state.options.forEach(option => {
+                        if (active.title === option.title)
+                            state.fullText += option.body
+                    })
+                })
+                state.hash = sha256(state.fullText);
+            }
+
             if (!state.activeOptions.includes(option)) {
-                state.activeOptions.push(option)
+                state.activeOptions.push(option);
+                calcHash();
             } else {
                 let index = state.activeOptions.indexOf(option);
                 state.activeOptions.splice(index, 1);
+                
+                if (state.activeOptions.length === 0)
+                    state.hash = '0'
+                else
+                    calcHash();
             }
-
-            // console.log(state.activeOptions);
         }
     },
     state: {
         data: [],
-        hash: '',
+        hash: '0',
         options: [],
         fullText: '',
         activeOptions: [],
-        isShowOptions: false,
+        isShowOptions: true,
     },
     getters: {
         getOptions(state) {
@@ -97,6 +119,9 @@ export default createStore({
         },
         getActiveOptions(state) {
             return state.activeOptions;
+        },
+        getHash(state) {
+            return state.hash;
         }
     }
 })

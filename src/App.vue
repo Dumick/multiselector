@@ -3,6 +3,7 @@
     <v-select />
     <v-content />
   </div>
+  <v-footer />
 </template>
 
 <script>
@@ -10,10 +11,11 @@ import { mapActions } from "vuex";
 
 import vSelect from "./components/v-select.vue";
 import vContent from "./components/v-content.vue";
+import vFooter from "./components/v-footer.vue";
 
 export default {
   name: "App",
-  components: { vSelect, vContent },
+  components: { vSelect, vContent, vFooter },
   methods: mapActions(["getData"]),
   created() {
     this.getData();
@@ -28,13 +30,14 @@ export default {
   box-sizing: border-box;
 }
 #app {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 .wrap {
-  width: 80%;
+  width: 60%;
   display: flex;
   align-items: center;
   margin-top: 40px;
